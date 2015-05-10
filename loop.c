@@ -11,6 +11,9 @@
 void loop(void)
 {
 	uint16_t VDD_Result ;
+#ifdef MAIN_POWER_2S	
+	uint16_t ADC_FVR ;
+#endif
 	uint8_t VR , VL ;	
 
 	static uint16_t Servo_Width ;
@@ -179,7 +182,7 @@ void loop(void)
 
 #ifdef MAIN_POWER_2S	
 
-			uint16_t ADC_FVR ;
+			//uint16_t ADC_FVR ;
 
 			ADCON0 |= AN0_CH << 2 ;	// Select to Power_Pin Read 2S Lipo Voltage
 
@@ -198,7 +201,22 @@ void loop(void)
 
 			ADC_FVR=ADRESH<<2 | ADRESL>>6;
 
-			VDD_Result=Get_ADC_Average_Value()/ADC_FVR;
+			VDD_Result=(Get_ADC_Average_Value()*1000)/ADC_FVR;
+			
+			switch ( VDD_Result )
+			{
+				case 800 ... 840 :
+					Buzzer_Go( Warning_10min_Bell ) ;
+					break ;
+					
+				case 760 ... 799 :
+					Buzzer_Go( Warning_20min_Bell ) ;
+					break ;
+					
+				case 720 ... 759 :
+					Buzzer_Go( Warning_30min_Bell ) ;
+					break ;
+			}
 
 			// For Debug			
 			//Serial595( VDD_Result );

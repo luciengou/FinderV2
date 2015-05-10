@@ -21,8 +21,8 @@
 //  1 - Dallas 420, etc.
 //#define OSC_PER_INST (4)
 
-#define MAIN_POWER_5V
-//#define MAIN_POWER_2S
+//#define MAIN_POWER_5V
+#define MAIN_POWER_2S
 
 #define Battery_Low_Voltage	4300	// Battery Low Detect at 4.3v
 
