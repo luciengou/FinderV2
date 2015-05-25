@@ -59,17 +59,19 @@ void loop(void)
 
 			Timer1_OFF ;
 			T1GCONbits.TMR1GE = 0 ;	// Timer1 Gate Disable
-
+#ifdef MAIN_POWER_5V			
 			// Servo Signal Stop Check
 			if ( Servo_Check_Timer == 0 ){
+
 				Buzzer_Go ( Servo_NO_SIGNAL_Bell ) ;	//Servo Signal Stop Warning
+
 				PWM_OFF;
 				Breath_LED ^= 1 ;
 
-				Work_State_G = SERVO_CHECK ;	//Next Work
+				Work_State_G = SERVO_CH                                                                                          ECK ;	//Next Work
 				break;
 			}
-
+#endif
 			Servo_Width = ( uint16_t ) ( VR <<8 | VL ) ;
 
 			static uint8_t Finder_Mode_Change_Counter = 0 , Finder_Mode_Change_Timer = 0 ;
@@ -183,16 +185,17 @@ void loop(void)
 #ifdef MAIN_POWER_2S	
 
 			//uint16_t ADC_FVR ;
-
-			ADCON0 |= AN0_CH << 2 ;	// Select to Power_Pin Read 2S Lipo Voltage
+/*
+			ADCON0 |= AN3_CH << 2 ;	// Select to Power_Pin Read 2S Lipo Voltage
 
 			ADC_Convertion_ON ;		// Start ADC Convertion
 									// ADC Result in ADCRESH ADCRESL
 			while( ADCON0bits.GO_nDONE ) ;
+
+			//delay_ms(100);
 			
 			ADC_Stack_Input () ;
-
-			
+*/
 			ADCON0 |= FVR_CH << 2 ;	// Select to FVR 1.024V , Read Reference Voltage
 
 			ADC_Convertion_ON ;		// Start ADC Convertion
@@ -201,23 +204,36 @@ void loop(void)
 
 			ADC_FVR=ADRESH<<2 | ADRESL>>6;
 
-			VDD_Result=(Get_ADC_Average_Value()*1000)/ADC_FVR;
+			//VDD_Result=(Get_ADC_Average_Value()*1000)/ADC_FVR;
+			//VDD_Result=Get_ADC_Average_Value()/ADC_FVR;
+			VDD_Result=ADC_FVR;
+			//VDD_Result = Get_ADC_Average_Value();
+
+			if ( (VDD_Result >600) && (VDD_Result < 1024) ) Buzzer_Go( Warning_10min_Bell ) ;	//One Time
+			if ( (VDD_Result >300) && (VDD_Result <  600) ) Buzzer_Go( Warning_20min_Bell ) ;	//One Time
+			if ( (VDD_Result >0  ) && (VDD_Result <  300) ) Buzzer_Go( Warning_30min_Bell ) ;	//One Time
+
+			//if ( (VDD_Result >4) && (VDD_Result <  5) ) Buzzer_Go( Warning_10min_Bell ) ;	//One Time
+			//if ( (VDD_Result >2) && (VDD_Result <  4) ) Buzzer_Go( Warning_20min_Bell ) ;	//One Time
+			//if ( (VDD_Result >0  ) && (VDD_Result <  2) ) Buzzer_Go( Warning_30min_Bell ) ;	//One Time
+
 			
+/*
 			switch ( VDD_Result )
 			{
-				case 800 ... 840 :
-					Buzzer_Go( Warning_10min_Bell ) ;
+				case 700 ... 1023 :
+					Buzzer_Go( Warning_10min_Bell ) ;	//One Time
 					break ;
 					
-				case 760 ... 799 :
-					Buzzer_Go( Warning_20min_Bell ) ;
+				case 400 ... 699 :
+					Buzzer_Go( Warning_20min_Bell ) ;	//Two Times
 					break ;
 					
-				case 720 ... 759 :
-					Buzzer_Go( Warning_30min_Bell ) ;
+				case 1 ... 399 :
+					Buzzer_Go( Warning_30min_Bell ) ;	//Three Times
 					break ;
 			}
-
+*/
 			// For Debug			
 			//Serial595( VDD_Result );
 
