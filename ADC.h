@@ -33,7 +33,7 @@
 #define ADC_CLK_64	0x06
 #define ADC_CLK_FRC2 0x07
 
-#define ADC_Stack_Deep	2
+#define ADC_Stack_Deep	5
 
 #define ADC_Convertion_ON	ADCON0bits.GO_nDONE=1;	//Start ADC Convertion
 #define ADC_Convertion_OFF	ADCON0bits.GO_nDONE=0;	//Stop ADC Convertion

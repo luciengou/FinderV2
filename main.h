@@ -24,6 +24,17 @@
 //#define MAIN_POWER_5V
 #define MAIN_POWER_2S
 
+#define Battery_Low_at_78V	998 // 7.8 / 2 = 3.9  , 256 * 3.9  =998
+#define Battery_Low_at_77V	985 // 7.7 / 2 = 3.85 , 256 * 3.85 =985
+#define Battery_Low_at_76V	973 // 7.6 / 2 = 3.8  , 256 * 3.8  =973
+#define Battery_Low_at_75V	960 // 7.5 / 2 = 3.75 , 256 * 3.75 =960
+#define Battery_Low_at_74V	947 // 7.4 / 2 = 3.7  , 256 * 3.7  =947
+#define Battery_Low_at_73V	934 // 7.3 / 2 = 3.65 , 256 * 3.65 =934
+#define Battery_Low_at_72V	922 // 7.2 / 2 = 3.6  , 256 * 3.6  =922
+#define Battery_Low_at_71V	909 // 7.1 / 2 = 3.55 , 256 * 3.55 =909
+#define Battery_Low_at_70V	896 // 7.0 / 2 = 3.5  , 256 * 3.5  =896
+
+
 #define Battery_Low_Voltage	4300	// Battery Low Detect at 4.3v
 
 #define Move_Stable_Timer_2min	120

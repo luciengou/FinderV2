@@ -196,27 +196,14 @@ void loop(void)
 
 			//----- Ext Vin END ----
 			
-			//VDD_Result =( VDD_Result *1024 ) / ADC_FVR ;
-			VDD_Result = Get_ADC_Average_Value() * 4 ;
-			//VDD_Result=ADC_FVR;
-			//VDD_Result = Get_ADC_Average_Value();
+			VDD_Result = Get_ADC_Average_Value() ;
 			
-			if ( (VDD_Result > 3072 ) && (VDD_Result < 4096 ) ) Buzzer_Go( Warning_30min_Bell ) ;	//Three Time
-			if ( (VDD_Result > 1024 ) && (VDD_Result < 3072 ) ) Buzzer_Go( Warning_20min_Bell ) ;	//Two Time
-			if ( (VDD_Result >    0 ) && (VDD_Result < 1024 ) ) Buzzer_Go( Warning_10min_Bell ) ;	//One Time
-			
-			/*
-			if ( (VDD_Result >600) && (VDD_Result < 1024) ) Buzzer_Go( Warning_10min_Bell ) ;	//One Time
-			if ( VDD_Result >300) && (VDD_Result <  600) ) Buzzer_Go( Warning_20min_Bell ) ;	//One Time
-			if ( (VDD_Result >0  ) && (VDD_Result <  300) ) Buzzer_Go( Warning_30min_Bell ) ;	//One Time
-			*/
-			/*
-			if ( (VDD_Result >4) && (VDD_Result <  5) ) Buzzer_Go( Warning_10min_Bell ) ;	//One Time
-			if ( (VDD_Result >2) && (VDD_Result <  4) ) Buzzer_Go( Warning_20min_Bell ) ;	//One Time
-			if ( (VDD_Result >0  ) && (VDD_Result <  2) ) Buzzer_Go( Warning_30min_Bell ) ;	//One Time
-			*/
-			
-/*
+			if ( (VDD_Result > Battery_Low_at_74V ) && (VDD_Result < Battery_Low_at_76V ) ) Buzzer_Go( Warning_10min_Bell ) ;	//Beep One Time
+			if ( (VDD_Result > Battery_Low_at_72V ) && (VDD_Result < Battery_Low_at_74V ) ) Buzzer_Go( Warning_20min_Bell ) ;	//Beep Two Times
+			if ( (VDD_Result > Battery_Low_at_70V ) && (VDD_Result < Battery_Low_at_72V ) ) Buzzer_Go( Warning_30min_Bell ) ;	//Beep Three Times
+			if ( (VDD_Result < Battery_Low_at_70V ) ) Buzzer_Go( Warning_30min_Bell ) ;	//Beep Three Times
+
+			/*			
 			switch ( VDD_Result )
 			{
 				case 700 ... 1023 :
