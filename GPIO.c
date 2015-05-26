@@ -12,6 +12,8 @@ void GPIO_Initial(void)
     TRISAbits.TRISA4 = 1;	// RA4 = EXT_VIN	(Input)
     TRISAbits.TRISA5 = 0;	// RA5 = Buzzer     (Output)
 
+	ANSELA = 0x10 ;			// Set RA4 Analog Input
+
 	APFCONbits.T1GSEL = 1 ;	// T1GSEL: Pin Selection bit
 							// 0 = T1G function is on RA4
 							// 1 = T1G function is on RA3

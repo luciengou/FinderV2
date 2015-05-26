@@ -5,14 +5,23 @@
 
 void ADC_Initial(uint8_t AD_Ch)
 {
+#ifdef MAIN_POWER_5V
 		// FVR Initial
 		if ( AD_Ch == FVR_CH ) FVR_Initial();
+#endif
 
-		// Analoge I/O Setting
+#ifdef MAIN_POWER_2S
+		FVR_Initial();
 
-		ANSELA = 0 ;			//1 = Analog input. Pin is assigned as analog input(1). Digital Input buffer disabled.
+		ANSELA = 0x10 ;			// Set RA4 Analog Input
+								//1 = Analog input. Pin is assigned as analog input(1). Digital Input buffer disabled.
 								//0 = Digital I/O. Pin is assigned to port or Digital special function
-
+#endif
+		// Analoge I/O Setting
+#ifdef MAIN_POWER_5V
+		ANSELA = 0x00 ;			//1 = Analog input. Pin is assigned as analog input(1). Digital Input buffer disabled.
+								//0 = Digital I/O. Pin is assigned to port or Digital special function
+#endif
 		ADCON0 &= 0x03 ;	// Reset ADC Channel Selection
 							// GO_nDONE=0, ADON=0, ADFM=0
 
@@ -26,8 +35,24 @@ void ADC_Initial(uint8_t AD_Ch)
 		PIR1bits.ADIF=0;					//Clear ADC interrupt flag
 		ADCON0bits.ADON=1;	//ADC ON
 
-//#ifdef MAIN_POWER_2S
-//#endif
+#ifdef MAIN_POWER_2S
+
+		FVRCON |= ADFVR_REF_4096 ;	// Set ADC VRef 4.096
+		ADCON1 |= ADPREF_FVR ;		//VREF+ is connected to internal Fixed Voltage Reference (FVR) module
+
+		uint8_t i = ADC_Stack_Deep ;
+
+		ADCON0 |= AD_Ch << 2 ;	// Select ADC Channel
+
+		while ( --i )
+		{
+			ADC_Convertion_ON ;	// Start ADC Convertion
+								// ADC Result in ADCRESH ADCRESL
+			while( ADCON0bits.GO_nDONE ) ;
+
+			ADC_Stack_Input () ;
+		}
+#endif
 
 #ifdef MAIN_POWER_5V
 

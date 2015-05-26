@@ -11,6 +11,7 @@
 void loop(void)
 {
 	uint16_t VDD_Result ;
+	//uint32_t VDD_Result ;
 #ifdef MAIN_POWER_2S	
 	uint16_t ADC_FVR ;
 #endif
@@ -184,39 +185,36 @@ void loop(void)
 
 #ifdef MAIN_POWER_2S	
 
-			//uint16_t ADC_FVR ;
-/*
-			ADCON0 |= AN3_CH << 2 ;	// Select to Power_Pin Read 2S Lipo Voltage
+			//----- Ext Vin Reading ----- 
+			//ADCON0 |= Ext_Vin << 2 ;	// Select to Power_Pin Read 2S Lipo Voltage
 
 			ADC_Convertion_ON ;		// Start ADC Convertion
 									// ADC Result in ADCRESH ADCRESL
 			while( ADCON0bits.GO_nDONE ) ;
 
-			//delay_ms(100);
-			
 			ADC_Stack_Input () ;
-*/
-			ADCON0 |= FVR_CH << 2 ;	// Select to FVR 1.024V , Read Reference Voltage
 
-			ADC_Convertion_ON ;		// Start ADC Convertion
-									// ADC Result in ADCRESH ADCRESL
-			while( ADCON0bits.GO_nDONE ) ;
-
-			ADC_FVR=ADRESH<<2 | ADRESL>>6;
-
-			//VDD_Result=(Get_ADC_Average_Value()*1000)/ADC_FVR;
-			//VDD_Result=Get_ADC_Average_Value()/ADC_FVR;
-			VDD_Result=ADC_FVR;
+			//----- Ext Vin END ----
+			
+			//VDD_Result =( VDD_Result *1024 ) / ADC_FVR ;
+			VDD_Result = Get_ADC_Average_Value() * 4 ;
+			//VDD_Result=ADC_FVR;
 			//VDD_Result = Get_ADC_Average_Value();
-
+			
+			if ( (VDD_Result > 3072 ) && (VDD_Result < 4096 ) ) Buzzer_Go( Warning_30min_Bell ) ;	//Three Time
+			if ( (VDD_Result > 1024 ) && (VDD_Result < 3072 ) ) Buzzer_Go( Warning_20min_Bell ) ;	//Two Time
+			if ( (VDD_Result >    0 ) && (VDD_Result < 1024 ) ) Buzzer_Go( Warning_10min_Bell ) ;	//One Time
+			
+			/*
 			if ( (VDD_Result >600) && (VDD_Result < 1024) ) Buzzer_Go( Warning_10min_Bell ) ;	//One Time
-			if ( (VDD_Result >300) && (VDD_Result <  600) ) Buzzer_Go( Warning_20min_Bell ) ;	//One Time
+			if ( VDD_Result >300) && (VDD_Result <  600) ) Buzzer_Go( Warning_20min_Bell ) ;	//One Time
 			if ( (VDD_Result >0  ) && (VDD_Result <  300) ) Buzzer_Go( Warning_30min_Bell ) ;	//One Time
-
-			//if ( (VDD_Result >4) && (VDD_Result <  5) ) Buzzer_Go( Warning_10min_Bell ) ;	//One Time
-			//if ( (VDD_Result >2) && (VDD_Result <  4) ) Buzzer_Go( Warning_20min_Bell ) ;	//One Time
-			//if ( (VDD_Result >0  ) && (VDD_Result <  2) ) Buzzer_Go( Warning_30min_Bell ) ;	//One Time
-
+			*/
+			/*
+			if ( (VDD_Result >4) && (VDD_Result <  5) ) Buzzer_Go( Warning_10min_Bell ) ;	//One Time
+			if ( (VDD_Result >2) && (VDD_Result <  4) ) Buzzer_Go( Warning_20min_Bell ) ;	//One Time
+			if ( (VDD_Result >0  ) && (VDD_Result <  2) ) Buzzer_Go( Warning_30min_Bell ) ;	//One Time
+			*/
 			
 /*
 			switch ( VDD_Result )

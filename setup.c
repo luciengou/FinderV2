@@ -28,7 +28,7 @@ void setup(void)
 
 	//ADC Initial
 #ifdef MAIN_POWER_2S
-	ADC_Initial ( AN0_CH );	// ADC Select
+	ADC_Initial ( Ext_Vin );	// ADC Select
 #endif
 
 #ifdef MAIN_POWER_5V

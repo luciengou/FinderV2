@@ -71,7 +71,8 @@ typedef unsigned long   uint32_t;
 #define Buzzer		LATAbits.LATA5
 #define Breath_LED	LATAbits.LATA2
 #define ServoIn		PORTAbits.RA3
-#define Ext_Vin 	LATAbits.LATA4	;Ext_Vin
+//#define Ext_Vin 	LATAbits.LATA4	//Ext_Vin
+#define Ext_Vin 	AN3_CH			//Ext_Vin
 
 //#define Power_Pin	0
 //#define Power_Pin	AN0_CH

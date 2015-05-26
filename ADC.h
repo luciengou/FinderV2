@@ -9,6 +9,10 @@
 #define TEMP_CH	0x1D 
 #define DAC_CH	0x1E
 #define FVR_CH	0x1F
+#define ADPREF_VDD 		0	//VREF+ is connected to AVDD
+#define ADPREF_Reserved 1 	//Reserved
+#define ADPREF_Ext 		2	//VREF+ is connected to external VREF+
+#define ADPREF_FVR 		3 	//VREF+ is connected to internal Fixed Voltage Reference (FVR) module
 
 //ADCS<2:0>: A/D Conversion Clock Select bits
 //000 = FOSC/2 Quickly Convertion
