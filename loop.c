@@ -11,10 +11,6 @@
 void loop(void)
 {
 	uint16_t VDD_Result ;
-	//uint32_t VDD_Result ;
-#ifdef MAIN_POWER_2S	
-	uint16_t ADC_FVR ;
-#endif
 	uint8_t VR , VL ;	
 
 	static uint16_t Servo_Width ;
@@ -60,6 +56,19 @@ void loop(void)
 
 			Timer1_OFF ;
 			T1GCONbits.TMR1GE = 0 ;	// Timer1 Gate Disable
+#ifdef MAIN_POWER_2S			
+			// Servo Signal Stop Check
+			if ( Servo_Check_Timer == 0 ){
+
+				Buzzer_Go ( Servo_NO_SIGNAL_Bell ) ;	//Servo Signal Stop Warning
+
+				PWM_OFF;
+				Breath_LED ^= 1 ;
+
+				Work_State_G = SERVO_CHECK ;	//Next Work
+				break ;
+			}
+#endif
 #ifdef MAIN_POWER_5V			
 			// Servo Signal Stop Check
 			if ( Servo_Check_Timer == 0 ){
@@ -69,7 +78,7 @@ void loop(void)
 				PWM_OFF;
 				Breath_LED ^= 1 ;
 
-				Work_State_G = SERVO_CH                                                                                          ECK ;	//Next Work
+				Work_State_G = SERVO_CHECK ;	//Next Work
 				break;
 			}
 #endif
@@ -202,27 +211,26 @@ void loop(void)
 			if ( (VDD_Result > Battery_Low_at_72V ) && (VDD_Result < Battery_Low_at_74V ) ) Buzzer_Go( Warning_20min_Bell ) ;	//Beep Two Times
 			if ( (VDD_Result > Battery_Low_at_70V ) && (VDD_Result < Battery_Low_at_72V ) ) Buzzer_Go( Warning_30min_Bell ) ;	//Beep Three Times
 			if ( (VDD_Result < Battery_Low_at_70V ) ) Buzzer_Go( Warning_30min_Bell ) ;	//Beep Three Times
-
+			
 			/*			
 			switch ( VDD_Result )
 			{
-				case 700 ... 1023 :
+				case Battery_Low_at_74V ... Battery_Low_at_76V :
+
 					Buzzer_Go( Warning_10min_Bell ) ;	//One Time
 					break ;
 					
-				case 400 ... 699 :
+				case Battery_Low_at_72V ... Battery_Low_at_74V-1 :
+
 					Buzzer_Go( Warning_20min_Bell ) ;	//Two Times
 					break ;
 					
-				case 1 ... 399 :
+				case Battery_Low_at_70V ... Battery_Low_at_72V-1 :
+
 					Buzzer_Go( Warning_30min_Bell ) ;	//Three Times
 					break ;
 			}
-*/
-			// For Debug			
-			//Serial595( VDD_Result );
-
-			//if ( VDD_Result < Battery_Low_Voltage ) Buzzer_Go ( Warning_Low_Voltage_Bell );
+			*/
 #endif
 
 #ifdef MAIN_POWER_5V			

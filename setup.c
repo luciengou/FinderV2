@@ -54,6 +54,17 @@ void setup(void)
 	{
 		case 0 :
 			Finder_Mode = HIGH_LOW ;
+#ifdef MAIN_POWER_2S			
+			Beep(Buzzer_Freqeuncy,500);
+			
+			uint8_t i=3;
+						
+			while (--i)
+			{
+				delay_ms(100);
+				Beep(Buzzer_Freqeuncy,50);				
+			}
+#endif
 #ifdef MAIN_POWER_5V			
 			Beep(Buzzer_Freqeuncy,500);
 			
@@ -69,6 +80,15 @@ void setup(void)
 
 		case 1 :
 			Finder_Mode = MOVING_STABLE ;
+#ifdef MAIN_POWER_2S
+			uint8_t i=3;
+						
+			while (--i)
+			{
+				delay_ms(100);
+				Beep(Buzzer_Freqeuncy,50);
+			}
+#endif
 #ifdef MAIN_POWER_5V
 			uint8_t i=3;
 						
