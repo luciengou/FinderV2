@@ -27,13 +27,8 @@ void setup(void)
 	Timer_Initial ( ) ;
 
 	//ADC Initial
-#ifdef MAIN_POWER_2S
-	ADC_Initial ( AN0_CH );	// ADC Select
-#endif
-
-#ifdef MAIN_POWER_5V
 	ADC_Initial ( FVR_CH );	// ADC Select
-#endif
+
 	//Interrupt Initial
 	INT_Initial ( ) ;		// Interrupt Init
 

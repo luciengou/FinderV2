@@ -21,8 +21,8 @@
 //  1 - Dallas 420, etc.
 //#define OSC_PER_INST (4)
 
-#define MAIN_POWER_5V
-//#define MAIN_POWER_2S
+//#define MAIN_POWER_5V
+//#define Disable_45min_Warning	//Disable 45min Continue Warning
 
 #define Battery_Low_Voltage	4300	// Battery Low Detect at 4.3v
 
@@ -73,8 +73,6 @@ typedef unsigned long   uint32_t;
 #define ServoIn		PORTAbits.RA3
 #define Delay_Test1	LATAbits.LATA4
 #define Delay_Test2	LATAbits.LATA5
-//#define Power_Pin	0
-//#define Power_Pin	AN0_CH
 
 void main(void);
 void setup(void);

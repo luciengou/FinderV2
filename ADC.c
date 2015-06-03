@@ -26,11 +26,6 @@ void ADC_Initial(uint8_t AD_Ch)
 		PIR1bits.ADIF=0;					//Clear ADC interrupt flag
 		ADCON0bits.ADON=1;	//ADC ON
 
-//#ifdef MAIN_POWER_2S
-//#endif
-
-#ifdef MAIN_POWER_5V
-
 		uint8_t i = ADC_Stack_Deep ;
 
 		while ( --i )
@@ -41,7 +36,7 @@ void ADC_Initial(uint8_t AD_Ch)
 
 			ADC_Stack_Input () ;
 		}
-#endif
+
 }
 
 static uint16_t ADC_Value_Total;

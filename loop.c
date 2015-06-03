@@ -177,36 +177,6 @@ void loop(void)
 
 		case MAIN_POWER_CHECK:
 
-#ifdef MAIN_POWER_2S	
-
-			uint16_t ADC_FVR ;
-
-			ADCON0 |= AN0_CH << 2 ;	// Select to Power_Pin Read 2S Lipo Voltage
-
-			ADC_Convertion_ON ;		// Start ADC Convertion
-									// ADC Result in ADCRESH ADCRESL
-			while( ADCON0bits.GO_nDONE ) ;
-			
-			ADC_Stack_Input () ;
-
-			
-			ADCON0 |= FVR_CH << 2 ;	// Select to FVR 1.024V , Read Reference Voltage
-
-			ADC_Convertion_ON ;		// Start ADC Convertion
-									// ADC Result in ADCRESH ADCRESL
-			while( ADCON0bits.GO_nDONE ) ;
-
-			ADC_FVR=ADRESH<<2 | ADRESL>>6;
-
-			VDD_Result=Get_ADC_Average_Value()/ADC_FVR;
-
-			// For Debug			
-			//Serial595( VDD_Result );
-
-			//if ( VDD_Result < Battery_Low_Voltage ) Buzzer_Go ( Warning_Low_Voltage_Bell );
-#endif
-
-#ifdef MAIN_POWER_5V			
 			ADC_Convertion_ON ;		// Start ADC Convertion
 									// ADC Result in ADCRESH ADCRESL
 			while( ADCON0bits.GO_nDONE ) ;
@@ -219,7 +189,7 @@ void loop(void)
 			//Serial595( VDD_Result );
 
 			if ( VDD_Result < Battery_Low_Voltage ) Buzzer_Go ( Warning_Low_Voltage_Bell );
-#endif
+
 			Work_State_G = TOTAL_TIME_CHECK ;	//Next Work
 
 			break;
@@ -232,12 +202,13 @@ void loop(void)
 
 			if ( Timer_Min == 30 && Timer_Sec == 0 ) Buzzer_Go ( Warning_30min_Bell );
 			
+#ifndef	Disable_45min_Warning
 			if ( Timer_Min >= 45 )
 			{
 				Buzzer_Go ( Warning_45min_Bell );
 				Timer_Min = 46 ;	// Warning Forever after 46min
 			}
-			
+#endif			
 			Work_State_G = SERVO_CHECK ;	//Next Work
 
 			break;
