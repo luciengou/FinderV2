@@ -4,7 +4,6 @@
 
 void Beep( uint16_t Buzzer_Freq , uint16_t beep_time_ms )
 {
-	//uint16_t	us , beep_timer ;
 	static uint16_t	us , beep_timer ;
 
 	INTCONbits.T0IE	= 0 ;
@@ -12,9 +11,6 @@ void Beep( uint16_t Buzzer_Freq , uint16_t beep_time_ms )
 
 	static uint16_t Reload_16 ;
 	static uint8_t R1H , R1L ;
-
-	//uint16_t	Reload_16 ;
-	//uint8_t 	R1H , R1L ;
 
 	us = 1000000 / ( Buzzer_Freq * 2 ) ;
 	Reload_16 = 65536UL - us + Buzzer_Freq_Offset ;	//us < 65536us
@@ -82,11 +78,11 @@ void Buzzer_Go ( Buzzer_Type B_Type )
 			delay_ms(100);
 			Beep(Buzzer_Freqeuncy,50);
 			break;
-
-		//case Servo_Low_Bell:
-		//	Beep(Buzzer_Freqeuncy,100);
-		//	break;
-		
+		/*
+		case Servo_Low_Bell:
+			Beep(Buzzer_Freqeuncy,100);
+			break;
+		*/
 		case Servo_NO_SIGNAL_Bell:
 			Beep(Buzzer_Freqeuncy,50);
 			delay_ms(100);
@@ -128,7 +124,35 @@ void Buzzer_Go ( Buzzer_Type B_Type )
 			delay_ms(100);
 			Beep(Buzzer_Freqeuncy,50);
 			break;
+#ifdef Enable_60min_Warning
+		case Warning_40min_Bell:
+			Beep(Buzzer_Freqeuncy,50);
+			delay_ms(100);
+			Beep(Buzzer_Freqeuncy,50);
+			delay_ms(100);
+			Beep(Buzzer_Freqeuncy,50);
+			delay_ms(100);
+			Beep(Buzzer_Freqeuncy,50);
+			break;
 
+		case Warning_50min_Bell:
+			Beep(Buzzer_Freqeuncy,50);
+			delay_ms(100);
+			Beep(Buzzer_Freqeuncy,50);
+			delay_ms(100);
+			Beep(Buzzer_Freqeuncy,50);
+			delay_ms(100);
+			Beep(Buzzer_Freqeuncy,50);
+			delay_ms(100);
+			Beep(Buzzer_Freqeuncy,50);
+			break;
+
+		case Warning_60min_Bell:
+			Beep(Buzzer_Freqeuncy,50);
+			delay_ms(100);
+			Beep(Buzzer_Freqeuncy,50);
+			break;
+#endif
 		case Warning_Low_Voltage_Bell:
 			Beep(Buzzer_Freqeuncy,50);
 			break;

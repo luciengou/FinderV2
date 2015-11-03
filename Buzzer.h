@@ -21,6 +21,11 @@ typedef enum {
 	Warning_20min_Bell ,
 	Warning_30min_Bell ,
 	Warning_45min_Bell ,
+#ifdef Enable_60min_Warning
+	Warning_40min_Bell ,
+	Warning_50min_Bell ,
+	Warning_60min_Bell ,
+#endif
 	Warning_Low_Voltage_Bell
 
 } Buzzer_Type;

@@ -201,14 +201,27 @@ void loop(void)
 			if ( Timer_Min == 20 && Timer_Sec == 0 ) Buzzer_Go ( Warning_20min_Bell );
 
 			if ( Timer_Min == 30 && Timer_Sec == 0 ) Buzzer_Go ( Warning_30min_Bell );
+#ifdef	Enable_60min_Warning
+			if ( Timer_Min == 40 && Timer_Sec == 0 ) Buzzer_Go ( Warning_40min_Bell );
+
+			if ( Timer_Min == 50 && Timer_Sec == 0 ) Buzzer_Go ( Warning_50min_Bell );
+
+			if ( Timer_Min >= 60 )
+			{
+				Buzzer_Go ( Warning_60min_Bell );
+				Timer_Min = 61 ;	// Warning Forever after 46min
+			}
+#endif
 			
-#ifndef	Disable_45min_Warning
+#ifndef	Enable_60min_Warning 
+#ifndef	Disable_45min_Warning 
 			if ( Timer_Min >= 45 )
 			{
 				Buzzer_Go ( Warning_45min_Bell );
 				Timer_Min = 46 ;	// Warning Forever after 46min
 			}
 #endif			
+#endif
 			Work_State_G = SERVO_CHECK ;	//Next Work
 
 			break;

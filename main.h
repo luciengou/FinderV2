@@ -11,18 +11,13 @@
 
 #define _XTAL_FREQ 4000000
 
-// Oscillator / resonator frequency (in Hz) e.g. (11059200UL)
-//#define OSC_FREQ (4000000UL)
-
-// Number of oscillations per instruction (12, etc)
-// 12 - Original 8051 / 8052 and numerous modern versions
-//  6 - Various Infineon and Philips devices, etc.
-//  4 - Dallas 320, 520 etc.
-//  1 - Dallas 420, etc.
-//#define OSC_PER_INST (4)
-
 //#define MAIN_POWER_5V
 //#define Disable_45min_Warning	//Disable 45min Continue Warning
+//#define Enable_60min_Warning
+
+
+
+
 
 #define Battery_Low_Voltage	4300	// Battery Low Detect at 4.3v
 
